@@ -16,7 +16,7 @@ import java.util.function.Function;
 public class JwtUtil {
     private static final long JWT_VALIDITY_PERIOD = 30L*24*60*60*1000L;
 
-    @Value("${jwt.secret:defaultSecretKeyForNetflixClone}")
+    @Value("${jwt.secret:defaultSecretKeyForNetflixClonedefaultSecretKeyForNetflixClone}")
     private String secret;
 
     private SecretKey getSigningKey(){
