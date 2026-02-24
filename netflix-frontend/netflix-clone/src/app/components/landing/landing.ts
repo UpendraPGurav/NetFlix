@@ -1,0 +1,83 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { email } from '@angular/forms/signals';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-landing',
+  standalone: false,
+  templateUrl: './landing.html',
+  styleUrl: './landing.css',
+})
+export class Landing {
+  landingForm!: FormGroup;
+  year = new Date().getFullYear();
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+  ) {
+    this.landingForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
+  }
+  login() {
+    this.router.navigate(['/login']);
+  }
+
+  getStarted() {
+    this.router.navigate(['/signup'], {
+      queryParams: { email: this.landingForm.value.email },
+    });
+  }
+
+  reasons = [
+    {
+      title: 'Enjoy on your TV',
+      text: 'Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.',
+      icon: 'tv',
+    },
+    {
+      title: 'Download your shows to watch offline',
+      text: 'Save your favourites easily and always have something to watch.',
+      icon: 'file_download',
+    },
+    {
+      title: 'Watch everywhere',
+      text: 'Stream unlimited movies and TV shows on your phone, tablet, laptop and TV.',
+      icon: 'devices',
+    },
+    {
+      title: 'Create profiles for kids',
+      text: 'Send kids on adventures in a space made just for them free with your membership.',
+      icon: 'face',
+    },
+  ];
+
+    faqs = [
+    {
+      question: 'What is PulseScreen?',
+      answer: 'PulseScreen is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and exclusive originals. You can stream unlimited content anytime, anywhere.',
+    },
+    {
+      question: 'How much does PulseScreen cost?',
+      answer: 'Plans start at ₹149 per month. There are no extra costs, no hidden fees, and no contracts. You can upgrade or downgrade your plan anytime.',
+    },
+    {
+      question: 'Where can I watch?',
+      answer: 'Watch anywhere, anytime. Sign in with your PulseScreen account to stream on the web or on devices like smartphones, tablets, smart TVs, laptops, and streaming devices.',
+    },
+    {
+      question: 'How do I cancel?',
+      answer: 'You can cancel your membership online in just two clicks. There are no cancellation fees. Start or stop your account anytime without any commitments.',
+    },
+    {
+      question: 'What can I watch on PulseScreen?',
+      answer: 'You can watch a huge library of feature films, documentaries, anime, TV shows, and exclusive PulseScreen originals, with new content added regularly.',
+    },
+    {
+      question: 'Is PulseScreen good for kids?',
+      answer: 'Yes. The Kids experience includes family-friendly entertainment with built-in parental controls that allow you to restrict content based on maturity ratings.',
+    },
+  ];
+}
