@@ -22,7 +22,7 @@ export class Signup implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     private errorHandlerService: ErrorHandlerService,
-    private notification:NotificationService
+    private notification: NotificationService,
   ) {
     this.signUpForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2)]],
@@ -36,7 +36,9 @@ export class Signup implements OnInit {
   }
 
   ngOnInit(): void {
-    //todo
+    if (this.authService.isLoggedIn()) {
+      this.authService.redirectBasedOnRole();
+    }
 
     const email = this.route.snapshot.queryParams['email'];
     if (email) {
@@ -55,15 +57,15 @@ export class Signup implements OnInit {
     };
 
     this.authService.signup(data).subscribe({
-      next:(response:any)=>{
-        this.loading= false;
-        this.notification.success(response?.message)
-        this.router.navigate(['/login'])
+      next: (response: any) => {
+        this.loading = false;
+        this.notification.success(response?.message);
+        this.router.navigate(['/login']);
       },
-      error:(err)=>{
-        this.loading= false
-        this.errorHandlerService.handle(err,'Registration failed. Please try again.')
-      }
-    })
+      error: (err) => {
+        this.loading = false;
+        this.errorHandlerService.handle(err, 'Registration failed. Please try again.');
+      },
+    });
   }
 }
