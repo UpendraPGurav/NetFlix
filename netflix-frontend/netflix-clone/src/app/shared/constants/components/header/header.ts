@@ -67,7 +67,9 @@ export class Header implements OnInit, OnDestroy {
         'warning',
       )
       .subscribe((result) => {
-        this.authService.logout();
+        if (result === true) {
+          this.authService.logout();
+        }
       });
   }
 }

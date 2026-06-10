@@ -4,6 +4,8 @@ import { ChangePasswordDialog } from '../constants/components/change-password-di
 import { DIALOG_CONFIG } from '../constants/app.constants';
 import { Observable } from 'rxjs';
 import { ConfirmDialog } from '../constants/components/confirm-dialog/confirm-dialog';
+import { ManageVideo } from '../../admin/dialog/manage-video/manage-video';
+import { VideoPlayer } from '../../components/video-player/video-player';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +35,19 @@ export class DialogService {
       },
     });
     return dialogRef.afterClosed();
+  }
+
+  openVideoFormDialog(mode: 'create' | 'edit', video?: any) {
+    return this.dialog.open(ManageVideo, {
+      ...DIALOG_CONFIG.VIDEO_FROM,
+      data: { mode, video },
+    });
+  }
+
+  openVideoPlayer(video: any): MatDialogRef<VideoPlayer> {
+    return this.dialog.open(VideoPlayer, {
+      data: video,
+      ...DIALOG_CONFIG.VIDEO_PLAYER,
+    });
   }
 }

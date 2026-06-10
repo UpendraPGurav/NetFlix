@@ -21,9 +21,10 @@ import { authInterceptor } from './shared/interceptors/auth-interceptor';
 import { ForgotPassword } from './components/forgot-password/forgot-password';
 import { AuthService } from './shared/services/auth-service';
 import { ResetPassword } from './components/reset-password/reset-password';
+import { VideoPlayer } from './components/video-player/video-player';
 
 @NgModule({
-  declarations: [App, Landing, Signup, Login, VerifyEmail, Home, ForgotPassword, ResetPassword],
+  declarations: [App, Landing, Signup, Login, VerifyEmail, Home, ForgotPassword, ResetPassword, VideoPlayer],
   imports: [BrowserModule, AppRoutingModule, SharedModule, MatIconModule, A11yModule],
   providers: [
     provideAppInitializer(() => {
