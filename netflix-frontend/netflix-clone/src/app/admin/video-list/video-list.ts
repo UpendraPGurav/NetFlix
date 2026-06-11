@@ -54,29 +54,7 @@ export class VideoList {
       this.loadMoreVideos();
     }
   }
-  // load() {
-  //   this.loading = true;
-  //   this.currentPage = 0;
-  //   this.pageVideos = [];
-  //   const search = this.searchQuery.trim() || undefined;
-  //   this.videoService.getAllAdminVideos(this.currentPage, this.pageSize, search).subscribe({
-  //     next: (response: any) => {
-  //       this.pageVideos = response.content;
-
-  //       this.totalElements = response.totalElements;
-  //       this.totalPages = response.totalPages;
-  //       this.currentPage = response.number;
-  //       this.hasMoreVideos = this.currentPage < this.totalPages - 1;
-  //       // this.data.data = this.pageVideos;
-  //       this.loading = false;
-  //     },
-  //     error: (err) => {
-  //       this.loadingMore = false;
-  //       this.errorService.handle(err, 'Failed to load more videos');
-  //       this.loading = false;
-  //     },
-  //   });
-  // }
+  
   load() {
   this.loading = true;
 
