@@ -32,12 +32,13 @@ public class Video {
 
     @Column(name = "src")
     @JsonIgnore
-    private String srcUuid;
+//    private String srcUuid;
+    private String src;
 
     @Column(name = "poster")
     @JsonIgnore
-    private String posterUuid;
-
+//    private String posterUuid;
+    private String poster;
     @Column(nullable = false)
     private boolean published=false;
 
@@ -58,22 +59,22 @@ public class Video {
     @JsonProperty("isInWatchlist")
     private Boolean isInWatchlist;
 
-    @JsonProperty("src")
-    public String getSrc() {
-        if(srcUuid!=null && !srcUuid.isEmpty()){
-            String baseurl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
-            return baseurl+"/api/files/video"+srcUuid;
-        }
-            return null;
-    }
+//    @JsonProperty("src")
+//    public String getSrc() {
+//        if(srcUuid!=null && !srcUuid.isEmpty()){
+//            String baseurl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
+//            return baseurl+"/api/files/video/"+srcUuid;
+//        }
+//            return null;
+//    }
 
-    @JsonProperty("poster")
-    public String getPoster() {
-        if(posterUuid!=null && !posterUuid.isEmpty()){
-            String baseurl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
-            return baseurl+"/api/files/image"+posterUuid;
-        }
-        return null;
-    }
+//    @JsonProperty("poster")
+//    public String getPoster() {
+//        if(posterUuid!=null && !posterUuid.isEmpty()){
+//            String baseurl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
+//            return baseurl+"/api/files/image/"+posterUuid;
+//        }
+//        return null;
+//    }
 
 }

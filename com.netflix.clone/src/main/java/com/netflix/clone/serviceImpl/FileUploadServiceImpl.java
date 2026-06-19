@@ -73,7 +73,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Override
     public ResponseEntity<Resource> serveImage(String uuid) {
-        try{
+        try {
             Path filePath = FileHandlerUtil.findFileByUuid(imageStorageLocation, uuid);
             Resource resource = FileHandlerUtil.createFullResource(filePath);
             String fileName = resource.getFilename();
@@ -82,7 +82,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
                     .body(resource);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }

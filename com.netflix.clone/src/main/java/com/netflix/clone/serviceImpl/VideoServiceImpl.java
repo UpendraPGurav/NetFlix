@@ -40,8 +40,8 @@ public class VideoServiceImpl implements VideoService {
         video.setYear(videoRequest.getYear());
         video.setRating(videoRequest.getRating());
         video.setDuration(videoRequest.getDuration());
-        video.setSrcUuid(videoRequest.getSrc());
-        video.setPosterUuid(videoRequest.getPoster());
+        video.setSrc(videoRequest.getSrc());
+        video.setPoster(videoRequest.getPoster());
         video.setPublished(videoRequest.getPublished());
         video.setCategories(videoRequest.getCategories() != null ? videoRequest.getCategories() : List.of());
         videoRepository.save(video);
@@ -71,8 +71,8 @@ public class VideoServiceImpl implements VideoService {
         video.setYear(videoRequest.getYear());
         video.setRating(videoRequest.getRating());
         video.setDuration(videoRequest.getDuration());
-        video.setSrcUuid(videoRequest.getSrc());
-        video.setPosterUuid(videoRequest.getPoster());
+        video.setSrc(videoRequest.getSrc());
+        video.setPoster(videoRequest.getPoster());
         video.setCategories(videoRequest.getCategories() != null ? videoRequest.getCategories() : List.of());
         videoRepository.save(video);
         return new  MessageResponse("Video updated successfully.");

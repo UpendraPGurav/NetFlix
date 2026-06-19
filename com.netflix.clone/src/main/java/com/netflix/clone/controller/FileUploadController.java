@@ -1,5 +1,6 @@
 package com.netflix.clone.controller;
 
+import com.netflix.clone.service.CloudinaryService;
 import com.netflix.clone.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,16 +19,44 @@ public class FileUploadController {
     @Autowired
     private FileUploadService fileUploadService;
 
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
+    //    @PostMapping("/upload/video")
+//    public ResponseEntity<Map<String, String>> uploadVideo(@RequestParam("file") MultipartFile file) {
+//        String uuid = fileUploadService.storeVideoFile(file);
+//        return ResponseEntity.ok(buildUploadResponse(uuid, file));
+//    }
     @PostMapping("/upload/video")
-    public ResponseEntity<Map<String, String>> uploadVideo(@RequestParam("file") MultipartFile file) {
-        String uuid = fileUploadService.storeVideoFile(file);
-        return ResponseEntity.ok(buildUploadResponse(uuid, file));
+    public ResponseEntity<Map<String, String>> uploadVideo(
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        String url = cloudinaryService.uploadVideo(file);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("url", url);
+        response.put("filename", file.getOriginalFilename());
+
+        return ResponseEntity.ok(response);
     }
 
+//    @PostMapping("/upload/image")
+//    public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
+//        String uuid = fileUploadService.storeImageFile(file);
+//        return ResponseEntity.ok(buildUploadResponse(uuid, file));
+//    }
+
     @PostMapping("/upload/image")
-    public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
-        String uuid = fileUploadService.storeImageFile(file);
-        return ResponseEntity.ok(buildUploadResponse(uuid, file));
+    public ResponseEntity<Map<String, String>> uploadImage(
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        String url = cloudinaryService.uploadImage(file);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("url", url);
+        response.put("filename", file.getOriginalFilename());
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/video/{uuid}")
@@ -36,7 +66,7 @@ public class FileUploadController {
     }
 
     @GetMapping("/image/{uuid}")
-    public ResponseEntity<Resource> serveImage(@PathVariable String uuid){
+    public ResponseEntity<Resource> serveImage(@PathVariable String uuid) {
         return fileUploadService.serveImage(uuid);
     }
 
