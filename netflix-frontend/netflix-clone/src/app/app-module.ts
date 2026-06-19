@@ -22,9 +22,10 @@ import { ForgotPassword } from './components/forgot-password/forgot-password';
 import { AuthService } from './shared/services/auth-service';
 import { ResetPassword } from './components/reset-password/reset-password';
 import { VideoPlayer } from './components/video-player/video-player';
+import { MyFavorites } from './components/user/my-favorites/my-favorites';
 
 @NgModule({
-  declarations: [App, Landing, Signup, Login, VerifyEmail, Home, ForgotPassword, ResetPassword, VideoPlayer],
+  declarations: [App, Landing, Signup, Login, VerifyEmail, Home, ForgotPassword, ResetPassword, VideoPlayer, MyFavorites],
   imports: [BrowserModule, AppRoutingModule, SharedModule, MatIconModule, A11yModule],
   providers: [
     provideAppInitializer(() => {

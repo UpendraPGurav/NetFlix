@@ -16,7 +16,7 @@ export class MediaService {
     private http: HttpClient,
   ) {}
 
-  uploadFile(file: File): Observable<{ progress: number; uuid?: string }> {
+  uploadFile(file: File): Observable<{ progress: number; url?: string }> {
     const formData = new FormData();
     formData.append('file', file);
 
@@ -34,7 +34,7 @@ export class MediaService {
           return { progress };
         } else if (event.type === HttpEventType.Response) {
           const body = event.body as any;
-          return { progress: 100, uuid: body?.uuid || '' };
+          return { progress: 100, url: body?.url || '' };
         }
         return { progress: 0 };
       }),
@@ -47,6 +47,8 @@ export class MediaService {
   //   options?: { useCache?: boolean },
   // ): string | null {
   //   let value = mediaValue;
+
+  //   // Handle image object with poster property
   //   if (type === 'image' && mediaValue && typeof mediaValue === 'object' && mediaValue.poster) {
   //     value = mediaValue.poster;
   //   }
@@ -56,99 +58,71 @@ export class MediaService {
   //   }
 
   //   let uuid = value;
-  //   if (typeof value === 'string' && value.includes('/image/')) {
-  //     uuid = value.substring(value.lastIndexOf('/') + 1);
+
+  //   // If value is already a URL, extract UUID
+  //   if (typeof value === 'string') {
+  //     // Return blob/data URLs directly
+  //     if (value.startsWith('blob:') || value.startsWith('data:')) {
+  //       return value;
+  //     }
+
+  //     // Extract UUID from URL
+  //     if (value.includes('/')) {
+  //       uuid = value.substring(value.lastIndexOf('/') + 1).split('?')[0];
+  //     }
   //   }
 
+  //   // Check image cache
   //   if (options?.useCache && type === 'image' && this.imageCache.has(uuid)) {
   //     return this.imageCache.get(uuid)!;
   //   }
 
-  //   if (uuid.startsWith('blob:') || uuid.startsWith('data')) {
-  //     return uuid;
-  //   }
-
   //   const token = this.authService.getToken();
+
   //   if (!token) {
   //     return null;
   //   }
 
-  //   const authenticateUrl = `${this.apiUrl}/${type}/${uuid}?token=${encodeURIComponent(token)}`;
+  //   const authenticatedUrl = `${this.apiUrl}/${type}/${uuid}?token=${encodeURIComponent(token)}`;
 
+  //   // Cache image URLs if requested
   //   if (options?.useCache && type === 'image') {
-  //     this.imageCache.set(uuid, authenticateUrl);
+  //     this.imageCache.set(uuid, authenticatedUrl);
   //   }
 
-  //   return authenticateUrl;
+  //   console.log('Original Value:', value);
+  //   console.log('UUID:', uuid);
+  //   console.log('Generated URL:', authenticatedUrl);
+
+  //   return authenticatedUrl;
   // }
 
   getMediaUrl(
-  mediaValue: any,
-  type: 'image' | 'video',
-  options?: { useCache?: boolean }
-): string | null {
-
-  let value = mediaValue;
-
-  // Handle image object with poster property
-  if (
-    type === 'image' &&
-    mediaValue &&
-    typeof mediaValue === 'object' &&
-    mediaValue.poster
-  ) {
-    value = mediaValue.poster;
-  }
-
-  if (!value) {
-    return null;
-  }
-
-  let uuid = value;
-
-  // If value is already a URL, extract UUID
-  if (typeof value === 'string') {
-
-    // Return blob/data URLs directly
-    if (value.startsWith('blob:') || value.startsWith('data:')) {
-      return value;
+    mediaValue: any,
+    type: 'image' | 'video',
+    options?: { useCache?: boolean },
+  ): string | null {
+    if (!mediaValue) {
+      return null;
     }
 
-    // Extract UUID from URL
-    if (value.includes('/')) {
-      uuid = value
-        .substring(value.lastIndexOf('/') + 1)
-        .split('?')[0];
+    let value = mediaValue;
+
+    if (type === 'image' && typeof mediaValue === 'object' && mediaValue.poster) {
+      value = mediaValue.poster;
     }
+
+    if (typeof value === 'string') {
+      if (
+        value.startsWith('http://') ||
+        value.startsWith('https://') ||
+        value.startsWith('blob:') ||
+        value.startsWith('data:')
+      ) {
+        return value;
+      }
+    }
+
+    return value;
   }
-
-  // Check image cache
-  if (
-    options?.useCache &&
-    type === 'image' &&
-    this.imageCache.has(uuid)
-  ) {
-    return this.imageCache.get(uuid)!;
-  }
-
-  const token = this.authService.getToken();
-
-  if (!token) {
-    return null;
-  }
-
-  const authenticatedUrl =
-    `${this.apiUrl}/${type}/${uuid}?token=${encodeURIComponent(token)}`;
-
-  // Cache image URLs if requested
-  if (options?.useCache && type === 'image') {
-    this.imageCache.set(uuid, authenticatedUrl);
-  }
-
-  console.log('Original Value:', value);
-  console.log('UUID:', uuid);
-  console.log('Generated URL:', authenticatedUrl);
-
-  return authenticatedUrl;
-}
 }

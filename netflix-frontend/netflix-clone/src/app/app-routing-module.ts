@@ -9,6 +9,7 @@ import { authGuard } from './Guards/auth-guard';
 import { adminGuard } from './Guards/admin-guard';
 import { ForgotPassword } from './components/forgot-password/forgot-password';
 import { ResetPassword } from './components/reset-password/reset-password';
+import { MyFavorites } from './components/user/my-favorites/my-favorites';
 
 const routes: Routes = [
   { path: '', component: Landing },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPassword },
   { path: 'reset-password', component: ResetPassword },
   { path: 'home', component: Home, canActivate: [authGuard] },
+  { path: 'my-favorites', component: MyFavorites, canActivate: [authGuard] },
   {
     path: 'admin',
     loadChildren: () => import('../app/admin/admin-module').then((m) => m.AdminModule),

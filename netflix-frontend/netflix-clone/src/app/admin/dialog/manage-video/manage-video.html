@@ -1,7 +1,7 @@
 <div class="video-form-container dialog-mode">
     <div class="form-header">
         <div class="header-title">
-            <h1>{{isEditMode?'Edit Video':'Uplaod New Video'}}</h1>
+            <h1>{{isEditMode?'Edit Video':'Upload New Video'}}</h1>
         </div>
     </div>
 
@@ -53,7 +53,7 @@
                             <span class="required">*</span>
                         </div>
                         <div class="upload-area portrait" *ngIf="!videoForm.get('poster').value">
-                            <input type="file" accept="image/*" id="posterInput" (click)="onPosterPicked($event)">
+                            <input type="file" accept="image/*" id="posterInput" (change)="onPosterPicked($event)">
                             <label for="posterInput" class="upload-label">
                                 <mat-icon class="upload-icon">add_photo_alternate</mat-icon>
                                 <span class="upload-text">Click to Upload Poster</span>

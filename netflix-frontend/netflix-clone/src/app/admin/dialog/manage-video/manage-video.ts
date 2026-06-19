@@ -66,8 +66,8 @@ export class ManageVideo implements OnInit {
         categories: video.categories || [],
         duration: video.duration,
         published: video.published,
-        src: this.extractUuidFromUrl(video.src),
-        poster: this.extractUuidFromUrl(video.poster),
+        src: video.src,
+        poster: video.poster,
       });
 
       if (video.src) this.loadVideoPreview(video.src);
@@ -84,15 +84,17 @@ export class ManageVideo implements OnInit {
   }
 
   private loadVideoPreview(value: string | null): void {
-    this.videoPreviewUrl = this.mediaService.getMediaUrl(value, 'video');
-    this.videoLoading = false;
-    this.cdr.detectChanges();
+    // this.videoPreviewUrl = this.mediaService.getMediaUrl(value, 'video');
+    // this.videoLoading = false;
+    // this.cdr.detectChanges();
+    this.videoPreviewUrl = value;
   }
 
   private loadPosterPreview(value: string | null): void {
-    this.posterPreviewUrl = this.mediaService.getMediaUrl(value, 'image');
-    this.posterLoading = false;
-    this.cdr.detectChanges();
+    // this.posterPreviewUrl = this.mediaService.getMediaUrl(value, 'image');
+    // this.posterLoading = false;
+    // this.cdr.detectChanges();
+    this.posterPreviewUrl = value;
   }
 
   private extractUuidFromUrl(value: string | undefined | null): string {
@@ -142,11 +144,22 @@ export class ManageVideo implements OnInit {
     this.uploadProgress = 0;
 
     this.mediaService.uploadFile(file).subscribe({
-      next: ({ progress, uuid }) => {
+      // next: ({ progress, uuid }) => {
+      //   this.uploadProgress = progress;
+      //   if (uuid) {
+      //     this.videoForm.patchValue({ src: uuid });
+      //     this.notification.success('Video uploaded successfully');
+      //   }
+      // },
+      next: ({ progress, url }) => {
         this.uploadProgress = progress;
-        if (uuid) {
-          this.videoForm.patchValue({ src: uuid });
+        
+        if (url) {
+          this.videoForm.patchValue({ src: url });
+          this.videoPreviewUrl = url;
+
           this.notification.success('Video uploaded successfully');
+          console.log('Cloudinary URL:', url);
         }
       },
       error: (err) => {
@@ -179,11 +192,22 @@ export class ManageVideo implements OnInit {
     this.posterProgress = 0;
 
     this.mediaService.uploadFile(file).subscribe({
-      next: ({ progress, uuid }) => {
+      // next: ({ progress, uuid }) => {
+      //   this.posterProgress = progress;
+      //   if (uuid) {
+      //     this.videoForm.patchValue({ poster: uuid });
+      //     this.notification.success('Poster uploaded successfully');
+      //   }
+      // },
+      next: ({ progress, url }) => {
         this.posterProgress = progress;
-        if (uuid) {
-          this.videoForm.patchValue({ poster: uuid });
+
+        if (url) {
+          this.videoForm.patchValue({ poster: url });
+          this.posterPreviewUrl = url;
+
           this.notification.success('Poster uploaded successfully');
+          console.log(url);
         }
       },
       error: (err) => {

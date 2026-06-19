@@ -20,7 +20,7 @@ export class UserList implements OnInit {
   currentUserEmail: string | null = null;
   searchQuery: string = '';
 
-  pageSize = 3;
+  pageSize = 10;
   currentPage = 0;
   totalPages = 0;
   hasMoreUsers = true;

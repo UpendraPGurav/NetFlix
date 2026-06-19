@@ -228,6 +228,7 @@ checkAndLoadMore() {
   }
 
   getPosterUrl(video: any) {
-    return this.mediaService.getMediaUrl(video, 'image', { useCache: true });
+    // return this.mediaService.getMediaUrl(video, 'image', { useCache: true });
+    return video?.poster;
   }
 }
